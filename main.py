@@ -92,20 +92,20 @@ class StringMaster:
         frame = Frame(self.root)
         frame.grid(row=3, column=0, padx=10, columnspan=2, pady=5, sticky="w")
 
-        vowels = Label(frame, text="Гласных: 0")
+        vowels = Label(frame, text="Гласных: ")
         vowels.grid(row=0, column=0, padx=5, pady=5)
 
         consonants = Label(frame, text="Согласных: ")
         consonants.grid(row=0, column=1, padx=5, pady=5)
 
-        palindrome = Label(frame, text="Палиндром: ")
-        palindrome.grid(row=0, column=2, padx=5, pady=5)
+        total_letters = Label(frame, text="Всего символов: ")
+        total_letters.grid(row=0, column=2, padx=5, pady=5)
 
         total_words = Label(frame, text="Всего слов: ")
         total_words.grid(row=0, column=3, padx=5, pady=5)
 
-        total_letters = Label(frame, text="Всего символов: ")
-        total_letters.grid(row=0, column=4, padx=5, pady=5)
+        palindrome = Label(frame, text="Палиндром: ")
+        palindrome.grid(row=0, column=4, padx=5, pady=5)
 
         layout = Label(frame, text="Раскладка: ")
         layout.grid(row=0, column=5, padx=5, pady=5)
