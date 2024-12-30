@@ -1,39 +1,44 @@
 try:
-    from pyperclip import copy
+    import pyperclip
 except ImportError:
     print("Please install pyperclip")
+    pyperclip = None
 from tkinter import Text
 from typing import Literal
 
 from helpers.decorators import *
 
 
-def get_format_text(text: str,
-                    operation: Literal["remove_extra", "remove_all", "reverse_text", "reverse_letters"]) -> list[str]:
+def format_text_lines(
+        text: str,
+        operation: Literal["remove_extra_spaces", "remove_all_spaces", "reverse_text", "reverse_letters"]
+    ) -> list[str]:
+    """Форматирует текст в соответствии с заданной операцией."""
     formated_text = []
     for line in text.splitlines():
-        if operation == "remove_extra":
-            formated_text.append(" ".join(line.split()))
-        elif operation == "remove_all":
-            formated_text.append("".join(line.split()))
-        elif operation == "reverse_text":
-            formated_text.append(" ".join(reversed(line.split())))
-        elif operation == "reverse_letters":
-            formated_text.append(" ".join(word[::-1] for word in line.split()))
+        match operation:
+            case "remove_extra_spaces":
+                formated_text.append(" ".join(line.split()))
+            case "remove_all_spaces":
+                formated_text.append("".join(line.split()))
+            case "reverse_text":
+                formated_text.append(" ".join(reversed(line.split())))
+            case "reverse_letters":
+                formated_text.append(" ".join(word[::-1] for word in line.split()))
     return formated_text
 
 
 @check_empty_text
 def remove_extra_spaces(text: str) -> str:
     """Удаляет лишние пробелы из текста."""
-    formated_text = get_format_text(text, "remove_extra")
+    formated_text = format_text_lines(text, "remove_extra_spaces")
     return "\n".join(formated_text)
 
 
 @check_empty_text
 def remove_all_spaces(text: str) -> str:
     """Удаляет все пробелы из текста."""
-    formated_text = get_format_text(text, "remove_all")
+    formated_text = format_text_lines(text, "remove_all_spaces")
     return "\n".join(formated_text)
 
 
@@ -65,14 +70,14 @@ def capitalize_sentences(text: str) -> str:
 @check_empty_text
 def reverse_text(text: str) -> str:
     """Разворачивает текст."""
-    formated_text = get_format_text(text, "reverse_text")
+    formated_text = format_text_lines(text, "reverse_text")
     return "\n".join(formated_text)
 
 
 @check_empty_text
 def reverse_letters(text: str) -> str:
     """Разворачивает буквы в тексте."""
-    formated_text = get_format_text(text, "reverse_letters")
+    formated_text = format_text_lines(text, "reverse_letters")
     return "\n".join(formated_text)
 
 
@@ -90,5 +95,8 @@ def clear_text(editor: Text) -> None:
 
 def copy_text(editor: Text) -> None:
     """Копирует весь текст в буфер обмена."""
+    if pyperclip is None:
+        print("Копирование текста недоступно. Установите модуль 'pyperclip' для этой функции.")
+        return
     text = editor.get("1.0", "end-1c")
-    copy(text)
+    pyperclip.copy(text) # type: ignore
