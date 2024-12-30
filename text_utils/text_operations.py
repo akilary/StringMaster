@@ -1,5 +1,8 @@
+try:
+    from pyperclip import copy
+except ImportError:
+    print("Please install pyperclip")
 from tkinter import Text
-from pyperclip import copy
 from typing import Literal
 
 from helpers.decorators import *
@@ -77,7 +80,7 @@ def reverse_letters(text: str) -> str:
 @validate_search_and_replace
 def search_and_replace(text: str, old: str, new: str) -> str:
     """Ищет и заменяет строку."""
-    return text.lower().replace(old, new)
+    return text.replace(old, new)
 
 
 def clear_text(editor: Text) -> None:
